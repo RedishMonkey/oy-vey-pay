@@ -1,0 +1,33 @@
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 85vh;
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+}
+
+.loading-icon {
+    width: 2rem;
+    height: 2rem;
+    animation: spin 1s linear infinite;
+    color: #000;
+}
+
+.loading p{
+    margin-top: 1rem;
+    font-size: 1.3rem;
+}
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

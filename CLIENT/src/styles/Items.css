@@ -1,0 +1,135 @@
+.item-container{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 1rem 1rem 1rem;
+  }
+  .item-container h1{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  .item-container div{
+    margin-bottom: 1.5rem;
+  }
+  .item-container label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #000;
+  }
+  
+  .item-container input ,
+  .item-container select{
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7ab;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+  }
+  .item-container input::placeholder{
+    color: #9ca3af;
+  }
+  .item-container select{
+    background-color: white;
+    cursor: pointer;
+  }
+  .item-button{
+    width: auto;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .item-button:disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type='number']{
+    -moz-appearance: textfield;
+  }
+  
+
+
+  /* Table Styles */
+  table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  th {
+    background-color: #f9fafb;
+    font-weight: 500;
+    color: #4b5563;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  
+  tr:hover {
+    background-color: #f9fafb;
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0 !important; /* Override the general margin from container */
+  }
+  
+  .edit-button,
+  .delete-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  
+  .edit-button {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .delete-button {
+    background-color: #ef4444;
+    color: white;
+  }
+  
+  .edit-button:hover,
+  .delete-button:hover {
+    opacity: 0.9;
+  }
+  
+
+  td > div {
+    margin-bottom: 0;
+  }
+
+
+  .not-found{
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    color: #6b7280;
+  }
