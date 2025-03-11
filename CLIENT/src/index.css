@@ -17,3 +17,9 @@
 body{
   font-family: 'Anek Latin',serif;
 }
+
+.table-container{
+  width: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}

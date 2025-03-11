@@ -126,77 +126,121 @@ export const Expenses = () => {
 
 
   return (
-    <main className='item-container'>
+    <main className="item-container">
       <h1>Expenses</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='title'>Title</label>
-          <input type='text' ref={titleRef} id='title' required placeholder='Enter expense title' />
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            ref={titleRef}
+            id="title"
+            required
+            placeholder="Enter expense title"
+          />
         </div>
         <div>
-          <label htmlFor='description'>Description</label>
-          <input type='text' ref={descriptionRef} id='description' placeholder='Enter expense description' />
+          <label htmlFor="description">Description</label>
+          <input
+            type="text"
+            ref={descriptionRef}
+            id="description"
+            placeholder="Enter expense description"
+          />
         </div>
         <div>
-          <label htmlFor='amount'>Amount</label>
-          <input type='number' ref={amountRef} inputMode='numeric' id='amount' required placeholder='Enter expense amount' />
+          <label htmlFor="amount">Amount</label>
+          <input
+            type="number"
+            ref={amountRef}
+            inputMode="numeric"
+            id="amount"
+            required
+            placeholder="Enter expense amount"
+          />
         </div>
         <div>
-          <label htmlFor='tag'>Tag</label>
-          <select id='tag' ref={tagRef} required>
-            <option value='food'>Food</option>
-            <option value='rent'>Rent</option>
-            <option value='transport'>Transport</option>
-            <option value='clothing'>Clothing</option>
-            <option value='entertainment'>Entertainment</option>
-            <option value='health'>Health</option>
-            <option value='education'>Education</option>
-            <option value='other'>Other</option>
+          <label htmlFor="tag">Tag</label>
+          <select id="tag" ref={tagRef} required>
+            <option value="food">Food</option>
+            <option value="rent">Rent</option>
+            <option value="transport">Transport</option>
+            <option value="clothing">Clothing</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="health">Health</option>
+            <option value="education">Education</option>
+            <option value="other">Other</option>
           </select>
         </div>
         <div>
-          <label htmlFor='currency'>Currency</label>
-          <select id='currency' ref={currencyRef}>
-            <option value='EUR'>EUR</option>
-            <option value='USD'>USD</option>
-            <option value='ILS'>ILS</option>
+          <label htmlFor="currency">Currency</label>
+          <select id="currency" ref={currencyRef}>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="ILS">ILS</option>
           </select>
         </div>
-        <button type='submit' className='item-button' disabled={isPending}>{editExpense ? 'Update' : 'Add'} Expense</button>
+        <button type="submit" className="item-button" disabled={isPending}>
+          {editExpense ? "Update" : "Add"} Expense
+        </button>
       </form>
-
-
-      <Filter inputSearch={inputSearch} setInputSearch={setInputSearch} SelectedFilter={SelectedFilter} setSelectedFilter={setSelectedFilter} maxAmount={maxAmount} />
-
-      {filteredExpenses.length ? (<table className='item-table'>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Tag</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredExpenses.map((expense) => (
-            <tr key={expense._id}>
-              <td>{expense.title}</td>
-              <td>{expense.description}</td>
-              <td>{expense.amount} {CURRENCY_SYMBOLS[expense.currency]} </td>
-              <td>{expense.tag}</td>
-              <td> 
-                <div className='action-buttons'>
-                  <button className='edit-button' disabled={isPending} onClick={() => handelEditExpense(expense)}>Edit</button>
-                  <button className='delete-button' disabled={isPending} onClick={() => deleteExpenses(expense._id)}>Delete</button>
-                </div>
-              </td>
-            </tr>
-          ))}
-
-
-        </tbody>
-      </table>) : inputSearch ? (<p className='not-found'>"{inputSearch}" Not Found</p>) : (<p className='not-found'>No Expense Found...</p>)};
+      <Filter
+        inputSearch={inputSearch}
+        setInputSearch={setInputSearch}
+        SelectedFilter={SelectedFilter}
+        setSelectedFilter={setSelectedFilter}
+        maxAmount={maxAmount}
+      />
+      {filteredExpenses.length ? (
+        <div className='table-container'>
+          <table className="item-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Tag</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredExpenses.map((expense) => (
+                <tr key={expense._id}>
+                  <td>{expense.title}</td>
+                  <td>{expense.description}</td>
+                  <td>
+                    {expense.amount} {CURRENCY_SYMBOLS[expense.currency]}{" "}
+                  </td>
+                  <td>{expense.tag}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button
+                        className="edit-button"
+                        disabled={isPending}
+                        onClick={() => handelEditExpense(expense)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        disabled={isPending}
+                        onClick={() => deleteExpenses(expense._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : inputSearch ? (
+        <p className="not-found">"{inputSearch}" Not Found</p>
+      ) : (
+        <p className="not-found">No Expense Found...</p>
+      )}
+      ;
     </main>
-  )
+  );
 }
