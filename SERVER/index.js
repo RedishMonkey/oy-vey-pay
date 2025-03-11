@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://oy-vey-pay-52ue.onrender.com"],
+    origin: ["http://localhost:5173", "https://oy-vey-pay-cqie.onrender.com"],
     credentials: true,
   })
 );
