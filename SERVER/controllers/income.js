@@ -1,7 +1,7 @@
 const { z } = require("zod");
 const User = require("../models/users");
 const { userIdValidation } = require("../lib/validation/user");
-const { IncomeSchema, IncomeIdValidation } = require("../lib/validation/Income");
+const { IncomeSchema, incomeIdValidation } = require("../lib/validation/income");
 const Income = require("../models/income");
 
 const addIncome = async (req, res) => {
