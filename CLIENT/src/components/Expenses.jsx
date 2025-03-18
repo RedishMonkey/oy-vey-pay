@@ -5,17 +5,25 @@ import { toast } from 'react-toastify';
 import { createExpense, getExpenses, deleteExpense, updateExpense } from '../api/expense.js';
 import { CURRENCY_SYMBOLS } from '../constants/index.js';
 import './Filters.jsx'
-
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {Loading} from './Loading.jsx'
+import { useExpenses, useCreateExpense, useDeleteExpense } from '../hooks/useExpenses.js'
 
 
 export const Expenses = () => {
 
-  const [isPending, setIsPending] = useState(false);
-  const [expenses, setExpenses] = useState([]);
+  // const [isPending, setIsPending] = useState(false);
+  // const [expenses, setExpenses] = useState([]);
   const [editExpense, setEditExpense] = useState(null);
   const [inputSearch, setInputSearch] = useState('');
   const [SelectedFilter, setSelectedFilter] = useState(null);
   const { user } = useAuth();
+
+  const {data: expenses, isLoading, error} = useExpenses()
+
+  const { mutate: createExpenseMutate, isPending: isPendingCreate } = useCreateExpense(resetFields)
+
+  const { mutate: deleteExpenseMutate, isPending: isPendingDelete } = useDeleteExpense(resetFields)
 
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
@@ -24,7 +32,7 @@ export const Expenses = () => {
   const currencyRef = useRef(null);
 
 
-  const maxAmount = expenses.length ? Math.max(...expenses.map((expense) => expense.amount)) : 0;
+  const maxAmount = expenses?.length ? Math.max(...expenses?.map((expense) => expense.amount)) : 0;
 
 
   const filteredExpenses = expenses?.filter((expense) => {
@@ -63,45 +71,47 @@ export const Expenses = () => {
     };
 
 
-    try {
-      setIsPending(true);
-      if (editExpense) {
-        const data = await updateExpense(user.id, editExpense._id, payload);
-        toast.success(data.message);
-        resetFields();
-        setEditExpense(null);
+    // try {
+    //   // setIsPending(true);
+    //   if (editExpense) {
+    //     const data = await updateExpense(user.id, editExpense._id, payload);
+    //     toast.success(data.message);
+    //     resetFields();
+    //     setEditExpense(null);
 
 
-      } else {
-        const data = await createExpense(payload);
-        toast.success(data.message);
-        resetFields();
-        setExpenses((prevExpenses) => [...prevExpenses, data.expense]);
-        const updatedExpenses = await getExpenses(user.id);
-        setExpenses(updatedExpenses);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsPending(false);
-    }
+    //   } else {
+    //     const data = await createExpense(payload);
+    //     toast.success(data.message);
+    //     resetFields();
+    //     setExpenses((prevExpenses) => [...prevExpenses, data.expense]);
+    //     const updatedExpenses = await getExpenses(user.id);
+    //     setExpenses(updatedExpenses);
+    //   }
+    // } catch (error) {
+    //   toast.error(error.message);
+    // } finally {
+    //   // setIsPending(false);
+    // }
+    createExpenseMutate(payload)
   };
 
 
 
   const deleteExpenses = async (expenseId) => {
-    const userId = user.id;
-    try {
-      setIsPending(true);
-      const data = await deleteExpense(userId, expenseId);
-      toast.success(data.message);
-      const updatedExpenses = await getExpenses(user.id);
-      setExpenses(updatedExpenses);
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsPending(false);
-    }
+    // const userId = user.id;
+    // try {
+    //   // setIsPending(true);
+    //   const data = await deleteExpense(userId, expenseId);
+    //   toast.success(data.message);
+    //   const updatedExpenses = await getExpenses(user.id);
+    //   setExpenses(updatedExpenses);
+    // } catch (error) {
+    //   toast.error(error.message);
+    // } finally {
+    //   // setIsPending(false);
+    // }
+    deleteExpenseMutate(userId, expenseId);
   }
 
 
@@ -115,16 +125,20 @@ export const Expenses = () => {
   }
 
 
-  useEffect(() => {
-    if (editExpense) return;
-    const fetchData = async () => {
-      const data = await getExpenses(user.id);
-      setExpenses(data);
-    };
-    fetchData();
-  }, [editExpense])
+  // useEffect(() => {
+  //   if (editExpense) return;
+  //   const fetchData = async () => {
+  //     const data = await getExpenses(user.id);
+  //     setExpenses(data);
+  //   };
+  //   fetchData();
+  // }, [editExpense])
 
 
+  if (isLoading){
+    return <div><Loading/></div>
+  } 
+  
   return (
     <main className="item-container">
       <h1>Expenses</h1>
@@ -180,7 +194,7 @@ export const Expenses = () => {
             <option value="ILS">ILS</option>
           </select>
         </div>
-        <button type="submit" className="item-button" disabled={isPending}>
+        <button type="submit" className="item-button" disabled={isPendingCreate || isPendingDelete}>
           {editExpense ? "Update" : "Add"} Expense
         </button>
       </form>
@@ -191,7 +205,7 @@ export const Expenses = () => {
         setSelectedFilter={setSelectedFilter}
         maxAmount={maxAmount}
       />
-      {filteredExpenses.length ? (
+      {filteredExpenses?.length ? (
         <div className='table-container'>
           <table className="item-table">
             <thead>
@@ -204,7 +218,7 @@ export const Expenses = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredExpenses.map((expense) => (
+              {filteredExpenses?.map((expense) => (
                 <tr key={expense._id}>
                   <td>{expense.title}</td>
                   <td>{expense.description}</td>
@@ -216,14 +230,13 @@ export const Expenses = () => {
                     <div className="action-buttons">
                       <button
                         className="edit-button"
-                        disabled={isPending}
                         onClick={() => handelEditExpense(expense)}
                       >
                         Edit
                       </button>
                       <button
                         className="delete-button"
-                        disabled={isPending}
+                        disabled={isPendingCreate || isPendingDelete}
                         onClick={() => deleteExpenses(expense._id)}
                       >
                         Delete

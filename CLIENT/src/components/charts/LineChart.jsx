@@ -1,6 +1,7 @@
 import React from 'react';
 import { CartesianGrid, Legend, Line, LineChart as RechartLineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import '../../styles/Chart.css'
+import { useExpenses } from '../../hooks/useExpenses';
 
 const data = [
   {
@@ -48,6 +49,8 @@ const data = [
 ];
  
     export const LineChart = () => {
+    const {data: expenses, isLoading, error} = useExpenses()
+    
     return (
         <div className='chart'>
       <ResponsiveContainer>
